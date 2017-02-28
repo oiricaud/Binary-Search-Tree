@@ -58,4 +58,22 @@ Resources
 Pseudocode
 =========
 
+After reading the assignment and requirements, I realized it is very boring and dry. Lets make this lab a little more interesting. Let's call this company Electric Fetus, a music store located in Minneapolis that is in need for a new system. This system requires the ability for the user to create, remove and list employees. 
+
+The following is information the client does not need to know. We will be implementing this task by following a Binary Search Tree structure. With a BST the average time to search, insert and removing employees is Big-O logn. 
+
+Implementation of a B-Tree
+
+ - Searching
+    - Before we can insert or delete employees, we must first find out if there are any employee that belong to the Electric Fetus music store. If there is an instance where all employees have been terminated, our system will notify our client that employees do not exist, and suggest hiring a few people. There could also be an instance where Electric Fetus music store has many employees. If we happen to be searching for an employee and he/she is found we can either terminate that employee or hire an employee. 
+   
+ - Insertion 
+    To hire an employee we must first verify that our root of the tree is not the employee we are trying to insert. If this is the case we can return "What are you doing employee already exists Insert an employee at the correct 
+    
+    
+ - Deltion 
+
+
+
+
 
