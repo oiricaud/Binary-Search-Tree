@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "foo.h"  /* Include the header here, to obtain the function declaration */
 
 void userInterface();
@@ -10,8 +11,15 @@ void deleteEmployee();
 void doWeWantToQuit();
 
 
-int main(void)
-{
+FILE *fptr;
+char buffer[32];
+char *b = buffer;
+size_t bufsize = 32;
+size_t characters;
+
+int input(char *s,int length);
+
+int main(void) {
 
     userInterface();
     return 0;
@@ -21,21 +29,21 @@ void userInterface(){
     printf("In the userInterface method\n");
     int userInput;
     printf("Type a number to choose \n 1) Read a file \n 2) Write a file \n 3) Search Employee \n 4) Hire Employee \n"
-                   " 5) Fire employee \n");
+                   " 5) Fire employee ");
     scanf("%d", &userInput);
     if(userInput == 1){
      readFile();
     }
-    if(userInput == 2){
+    else if(userInput == 2){
         writeFile();
     }
-    if(userInput == 3){
+    else if(userInput == 3){
         searchEmployee();
     }
-    if(userInput == 4){
+    else if(userInput == 4){
         insertEmployee();
     }
-    if(userInput == 5){
+    else if (userInput == 5){
         deleteEmployee();
     }
 }
@@ -46,16 +54,31 @@ void readFile(){
     int c;
     file = fopen("ListOfEmployees.txt", "r");
         if (file) {
+            printf("\n**** BEGIN READING TEXT FILE **** \n");
             while ((c = getc(file)) != EOF)
                 putchar(c);
                 printf("\n");
             fclose(file);
+            printf("**** END READING TEXT FILE **** \n \n");
         }
     doWeWantToQuit();
 }
 void writeFile(){
-    printf("In the writeFile method \n");
-    userInterface();
+    printf("In the writeFile method ");
+
+
+    fptr = fopen("ListOfEmployees.txt", "w");
+    if (fptr == NULL) {
+        printf("Error opening file!");
+    }
+    else {
+        getchar();
+        printf("Type first and last name: ");
+        characters = getline(&b, &bufsize, stdin);
+        printf("%zu characters were read.\n", characters);
+        printf("You typed: '%s'\n", buffer);
+    }
+
 }
 void searchEmployee(){
     printf("In the searchEmployee method \n");
@@ -71,12 +94,12 @@ void deleteEmployee(){
 }
  void doWeWantToQuit(){
     int userInput;
-    printf("Would you like to quit? Type '1' for yes, '0' for no \n");
+     printf("Type a number to choose \n 1) Quit \n 2) Continue \n");
     scanf("%d", &userInput);
     if(userInput == 1){
         printf("Have a great day!\n");
     }
-    else{
-        readFile();
+    if(userInput == 2){
+        userInterface();
     }
 }
