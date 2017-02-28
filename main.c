@@ -67,7 +67,7 @@ void writeFile(){
     printf("In the writeFile method ");
 
 
-    fptr = fopen("ListOfEmployees.txt", "w");
+    fptr = fopen("ListOfEmployees.txt", "a");
     if (fptr == NULL) {
         printf("Error opening file!");
     }
@@ -77,6 +77,9 @@ void writeFile(){
         characters = getline(&b, &bufsize, stdin);
         printf("%zu characters were read.\n", characters);
         printf("You typed: '%s'\n", buffer);
+
+        const char *text = buffer;
+        fprintf(fptr, "%s\n", text);
     }
 
 }
