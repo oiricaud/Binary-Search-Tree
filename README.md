@@ -47,3 +47,9 @@ Getting started: Linked List Demo
 We have provided a "linked list demo" to help enure that you are familiar with pointers, structures, and what's expected of a "professional" code delivery.  We encourage you to examine it carefully.
 
 Its contents are described in a README.  That readme also suggests a few practice problems that you should consider attempting prior to starting this lab.
+
+Resources 
+=========
+
+Pseudocode
+=========
