@@ -28,8 +28,8 @@ int main(void) {
 void userInterface(){
     printf("In the userInterface method\n");
     int userInput;
-    printf("Type a number to choose \n 1) Read a file \n 2) Write a file \n 3) Search Employee \n 4) Hire Employee \n"
-                   " 5) Fire employee ");
+    printf("Type a number to choose \n \n 1) Read a file \n 2) Write a file \n 3) Search Employee \n 4) Hire Employee \n"
+                   " 5) Fire employee \n");
     scanf("%d", &userInput);
     if(userInput == 1){
      readFile();
@@ -64,8 +64,7 @@ void readFile(){
     doWeWantToQuit();
 }
 void writeFile(){
-    printf("In the writeFile method ");
-
+    printf("In the writeFile method \n");
 
     fptr = fopen("ListOfEmployees.txt", "a");
     if (fptr == NULL) {
@@ -77,11 +76,9 @@ void writeFile(){
         characters = getline(&b, &bufsize, stdin);
         printf("%zu characters were read.\n", characters);
         printf("You typed: '%s'\n", buffer);
-
         const char *text = buffer;
         fprintf(fptr, "%s\n", text);
     }
-
 }
 void searchEmployee(){
     printf("In the searchEmployee method \n");
