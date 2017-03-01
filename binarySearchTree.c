@@ -8,5 +8,19 @@ struct node {
     int data;
 };
 
+/*
+ * We must allocate memory for a new node and fill it's data with the proper value.
+ */
+struct node *newNode(int data){
 
+    /* allocates space for an array of elements,
+     * initialize them to zero and then return a void
+     * pointer to the memory
+     */
+    struct node *n = (struct node*) calloc(1, sizeof(struct node));
+    n->leftChild = NULL;
+    n->rightChild = NULL;
+    n->data = data;
+    return n;
+}
 
