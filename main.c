@@ -20,7 +20,6 @@ size_t characters;
 int input(char *s,int length);
 
 int main(void) {
-
     userInterface();
     return 0;
 }
@@ -71,14 +70,17 @@ void writeFile(){
         printf("Error opening file!");
     }
     else {
+        printf("\n**** BEGIN WRITING IN A TEXT FILE **** \n");
         getchar();
         printf("Type first and last name: ");
         characters = getline(&b, &bufsize, stdin);
-        printf("%zu characters were read.\n", characters);
-        printf("You typed: '%s'\n", buffer);
+        printf("**** END WRITING IN A TEXT FILE **** \n \n");
+        printf("**** SUCCESS **** \n \n");
         const char *text = buffer;
-        fprintf(fptr, "%s\n", text);
+        fprintf(fptr, "%s", text);
     }
+
+    doWeWantToQuit();
 }
 void searchEmployee(){
     printf("In the searchEmployee method \n");
@@ -86,10 +88,29 @@ void searchEmployee(){
 }
 void insertEmployee(){
     printf("In the insertEmployee method \n");
-    userInterface();
+    printf("In the writeFile method \n");
+
+    fptr = fopen("ListOfEmployeesBTreeStructure.txt", "a");
+    if (fptr == NULL) {
+        printf("Error opening file!");
+    }
+    else {
+        printf("\n**** BEGIN WRITING IN A TEXT FILE **** \n");
+        getchar();
+
+        printf("Type first and last name: ");
+        characters = getline(&b, &bufsize, stdin);
+        printf("**** END WRITING IN A TEXT FILE **** \n \n");
+        printf("**** SUCCESS **** \n \n");
+        const char *text = buffer;
+        fprintf(fptr, "%s", text);
+    }
+
+    doWeWantToQuit();
 }
 void deleteEmployee(){
     printf("In the deleteEmployee method \n");
+    printf("Firing someone is not an easy task to do. Please type in the first name and last name:\n");
     userInterface();
 }
  void doWeWantToQuit(){
