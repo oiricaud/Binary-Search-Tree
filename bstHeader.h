@@ -1,17 +1,18 @@
 #ifndef BST_H
 #define BST_H
 
+
 /* What are properties a node has? Each node must store data and may have a left or right child. */
 struct node {
     struct node *leftChild;
     struct node *rightChild;
-    int data;
+    char *data;
 };
 
 /*
  * We must allocate memory for a new node and fill it's data with the proper value.
  */
-struct node *newNode(int data){
+struct node *newNode(char *data){
 
     /* Calloc allocates space for an array of elements,
      * initialize them to zero and then return a void
@@ -24,8 +25,6 @@ struct node *newNode(int data){
     return n;
 }
 
-
-
 /**
  * This method inserts data to the Binary Search Tree[1]
  * @param root a new node on the tree if the data is not already stored
@@ -33,18 +32,22 @@ struct node *newNode(int data){
  * @return 0 for error and 1 for success
  */
 
-
-int insert(struct node* root, int data){
+int insert(struct node* root, char* data){
     struct node *n;
 
     if(!root->data){
-        printf("If the root is null then insert here \n");
+        printf("%s %s %s", "If the tree is empty, then let root->data point to the the data you are passing", data, "\n");
         root->data = data;
     }
     else{
-        if(data == root->data) // We can't add duplicates to the binary search tree so just return and ignore.
+        if((strcmp(data, root->data) == 0)) { // If the data is equal to the root then,
+            printf("%s, %s", "What is root-> data", root->data);
+            printf("%s %s %s", "Woah we already have that employee, no need to add him/her again:", data, "\n");
             return 0;
-        else if(data > root->data){ // If data is greater than the root
+        }
+
+        else if ((strcmp(data, root->data) < 0)){ // data is less than root->data.
+            printf("%s %s %s %s %s, %s", "data is > root->data|", data, ">", root->data, "compareStrings", "\n");
             if(root->rightChild){  // This statement runs if the root has a right child
                 // printf("This statement runs if the root has a right child\n");
                 return insert(root->rightChild, data);
@@ -55,6 +58,7 @@ int insert(struct node* root, int data){
             }
         }
         else{ // Insert at the left child
+            printf("%s %s %s %s %s", "data is < root->data|", data, "<", root->data, "\n");
             if(root->leftChild){ // This statement runs if the root has a left child
                 // printf("This statement runs if the root has a left child");
                 return insert(root->leftChild, data);
@@ -77,10 +81,9 @@ void printTree(struct node* root, int height){
 
     if(root){
         printTree(root->leftChild, height+1);
-        for(i = 0; i < height; i++) {
-            printf("  ");
-        }
-        printf("%d\n", root->data);
+        for(i = 0; i < height; i++)
+            printf(" ");
+        printf("%s\n", root->data);
         printTree(root->rightChild, height +1);
     }
 }
