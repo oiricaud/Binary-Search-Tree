@@ -1,17 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "structHeader.h"
-#include "binarySearchTree.h"
-
-/* Below is the User Interface */
-void userInterface();
-void readFile();
-void writeFile();
-void searchEmployee();
-void insertEmployee();
-void deleteEmployee();
-void doWeWantToQuit();
+#include "main.h"
+#include "bstHeader.h"
 
 
 FILE *fptr;
@@ -27,6 +18,10 @@ int main(void) {
     return 0;
 }
 
+/*
+ * This method handles the interaction between the user and the terminal. The user has an array of options such as reading
+ * writing a file, search, hire or even fire employees.
+ */
 void userInterface(){
     printf("In the userInterface method\n");
     int userInput;
