@@ -1,6 +1,6 @@
 #ifndef BINARY_SEARCH_TREE_STRUCTHEADER_H
 #define BINARY_SEARCH_TREE_STRUCTHEADER_H
-
+a
 
 /* Below we define the Binary Search Tree properties */
 
