@@ -18,10 +18,12 @@ struct node *newNode(char *data){
      * initialize them to zero and then return a void
      * pointer to the memory
      */
-    struct node *n = (struct node*) calloc(1, sizeof(struct node));
+    struct node *n = (struct node*) malloc(sizeof(struct node));
+    printf("%s %s", "DATA", data);
+    n->data = data;
+    printf("%s %s", "n->data2", n->data);
     n->leftChild = NULL;
     n->rightChild = NULL;
-    n->data = data;
     return n;
 }
 
@@ -34,36 +36,37 @@ struct node *newNode(char *data){
 
 int insert(struct node* root, char* data){
     struct node *n;
+   // printf("%s %s %s %s %s", "root->data: ", root->data, "Data: ", data,"\n");
 
     if(!root->data){
-        printf("%s %s %s", "If the tree is empty, then let root->data point to the the data you are passing", data, "\n");
+        printf("%s %s %s %s %s %s", "Tree is empty: ", "Root->Data: ", root->data, "Data: ", data, "\n");
         root->data = data;
     }
     else{
-        if((strcmp(data, root->data) == 0)) { // If the data is equal to the root then,
-            printf("%s, %s", "What is root-> data", root->data);
-            printf("%s %s %s", "Woah we already have that employee, no need to add him/her again:", data, "\n");
-            return 0;
+        printf("%s %s %s %s %s", "HEREroot->data: ", root->data, "Data: ", data,"\n");
+        int compare;
+        compare = strcmp(data, root->data);
+        if(compare == 0) { // If the data is equal to the root then,
+            printf("%s %s %s %s %s %d %s", "Data: ", data, "Root->Data: ", root->data, "Compare: ", compare, "\n");
         }
-
-        else if ((strcmp(data, root->data) < 0)){ // data is less than root->data.
-            printf("%s %s %s %s %s, %s", "data is > root->data|", data, ">", root->data, "compareStrings", "\n");
-            if(root->rightChild){  // This statement runs if the root has a right child
+        else if (compare < 0){ // data is less than root->data.
+         //   printf("%s %s %s %s %s, %s", "data is > root->data|", data, ">", root->data, "compareStrings", "\n");
+            if(root->rightChild) {  // This statement runs if the root has a right child
                 // printf("This statement runs if the root has a right child\n");
                 return insert(root->rightChild, data);
             }
-            else{ // Create new right child
+            else {// Create new right child
                 root->rightChild = newNode(data);
                 // printf("Create a new right child\n");
             }
         }
         else{ // Insert at the left child
             printf("%s %s %s %s %s", "data is < root->data|", data, "<", root->data, "\n");
-            if(root->leftChild){ // This statement runs if the root has a left child
+            if(root->leftChild) { // This statement runs if the root has a left child
                 // printf("This statement runs if the root has a left child");
                 return insert(root->leftChild, data);
             }
-            else{ // Create a new left child
+            else {// Create a new left child
                 root->leftChild = newNode(data);
                 //  printf("Create a new left child");
             }
@@ -82,7 +85,7 @@ void printTree(struct node* root, int height){
     if(root){
         printTree(root->leftChild, height+1);
         for(i = 0; i < height; i++)
-            printf(" ");
+            printf("  ├──  ");
         printf("%s\n", root->data);
         printTree(root->rightChild, height +1);
     }

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 #include "main.h"
 #include "bstHeader.h"
 
@@ -45,7 +45,9 @@ void userInterface(){
     }
 }
 
-
+/*
+ * Reads a file, the file must exist for it to work. Solve this issue later.
+ */
 void readFile(){
     printf("In the readFile method \n");
 
@@ -60,9 +62,12 @@ void readFile(){
             fclose(file);
             printf("**** END READING TEXT FILE **** \n \n");
         }
-    doWeWantToQuit();
+    nextStateNoTreeOption();
 }
 
+/*
+ * Writes a file
+ */
 void writeFile(){
     printf("In the writeFile method \n");
 
@@ -80,19 +85,94 @@ void writeFile(){
         const char *text = buffer;
         fprintf(fptr, "%s", text);
     }
-    doWeWantToQuit();
+    nextStateNoTreeOption();
 }
 
+/*
+ * Searches for an employee.
+ */
 void searchEmployee(){
     printf("In the searchEmployee method \n");
     userInterface();
 }
 
-void insertEmployee(){
+void insertEmployee() {
     printf("In the insertEmployee method \n");
-    printf("In the writeFile method \n");
+    struct node *root = NULL;
+    char line[10][256];
+    FILE *file = fopen("ListOfEmployees.txt", "r");
+    if (file) {
+        printf("\n**** BEGIN INSERTING EMPLOYEES **** \n");
+        root = newNode(0);
+        int i=0;
+        while (fgets(line[i], sizeof(line), file) != 0) {
+            //note that fgets don't strip the terminating \n, checking its
+            // presence would allow to handle lines longer that sizeof(line)
+            printf("%s %s", "line:", line);
+            insert(root, line[i]);
+            i++;
+        }
+        fclose(file);
+        printf("**** END INSERTING EMPLOYEES **** \n \n");
+        nextState(root);
+    }
+        /*
+        while (fgets(line, sizeof(line), file)  != '\n') {
 
-    fptr = fopen("ListOfEmployeesBTreeStructure.txt", "a");
+          //note that fgets don't strip the terminating \n, checking its
+         // presence would allow to handle lines longer that sizeof(line)
+
+            printf("%s %s", "line:", line);
+            insert(root, line);
+
+        }
+        fclose(file);
+        printf("**** END INSERTING EMPLOYEES **** \n \n");
+        nextState(root);
+    }
+*/
+/*
+    insert(root, "Javi");
+    insert(root, "Oscar");
+    insert(root, "Daniel");
+    insert(root, "Gisela");
+    nextState(root);
+*/
+
+
+/*
+    struct node *root = NULL;
+    root = newNode(0);
+    FILE *file;
+    int c;
+    char line[256] ="";
+
+    file = fopen("ListOfEmployees.txt", "r");
+    if (file) {
+
+        printf("\n**** BEGIN INSERTING EMPLOYEES **** \n");
+
+        while (fgets(line, sizeof(line), file)  != 0) {
+             note that fgets don't strip the terminating \n, checking its
+               presence would allow to handle lines longer that sizeof(line)
+
+            insert(root, line);
+           // printf("%s %s", "line:", fgets(line, sizeof(line), file));
+        }
+
+        fclose(file);
+        printf("**** END INSERTING EMPLOYEES **** \n \n");
+    }
+
+    insert(root, "Javi");
+    insert(root, "Oscar");
+    insert(root, "Daniel");
+    insert(root, "Gisela");
+
+    nextState(root);
+
+
+    fptr = fopen("ListOfEmployees.txt", "r");
     if (fptr == NULL) {
         printf("Error opening file!");
     }
@@ -108,7 +188,9 @@ void insertEmployee(){
         printTree(root, 1);
     }
     printf("\n**** End Hire Employee **** \n");
-    doWeWantToQuit();
+    nextState();
+     */
+
 }
 
 void deleteEmployee(){
@@ -117,14 +199,29 @@ void deleteEmployee(){
     userInterface();
 }
 
-void doWeWantToQuit(){
+
+void nextStateNoTreeOption(){
     int userInput;
-     printf("Type a number to choose \n 1) Quit \n 2) Continue \n");
+    printf("Type a number to choose \n 1) Quit \n 2) Continue \n");
     scanf("%d", &userInput);
     if(userInput == 1){
         printf("Have a great day!\n");
     }
     if(userInput == 2){
         userInterface();
+    }
+}
+void nextState(struct node *root){
+    int userInput;
+     printf("Type a number to choose \n 1) Quit \n 2) Continue \n 3) Print Tree \n");
+    scanf("%d", &userInput);
+    if(userInput == 1){
+        printf("Have a great day!\n");
+    }
+    if(userInput == 2){
+        userInterface();
+    }
+    if(userInput == 3) {
+        printTree(root, 1);
     }
 }
