@@ -14,6 +14,7 @@ size_t characters;
 int input(char *s,int length);
 
 int main(void) {
+    printf("\n|***** Welcome to Electric Fetus Music Store! ******|\n");
     userInterface();
     return 0;
 }
@@ -23,10 +24,10 @@ int main(void) {
  * writing a file, search, hire or even fire employees.
  */
 void userInterface(){
-    printf("In the userInterface method\n");
     int userInput;
-    printf("Type a number to choose \n \n 1) Read a file \n 2) Write a file \n 3) Search Employee \n 4) Hire Employee \n");
-
+    printf("Type a number to choose \n "
+                   "1) Read a file \n 2) Write inside the text file \n 3) Create a BST from the text file \n 4) Quit\n");
+    printf(">> ");
     scanf("%d", &userInput);
     if(userInput == 1){
      readFile();
@@ -35,10 +36,11 @@ void userInterface(){
         writeFile();
     }
     else if(userInput == 3){
-        searchEmployee();
+        createBST();
     }
     else if(userInput == 4){
-        insertEmployee();
+        printf("|***** Thank you very much for using our Service ******|\n");
+        return;
     }
 }
 
@@ -46,28 +48,24 @@ void userInterface(){
  * Reads a file, the file must exist for it to work. Solve this issue later.
  */
 void readFile(){
-    printf("In the readFile method \n");
-
     FILE *file;
     int c;
     file = fopen("ListOfEmployees.txt", "r");
         if (file) {
-            printf("\n**** BEGIN READING TEXT FILE **** \n");
+            printf("\n**** READING TEXT FILE **** \n");
             while ((c = getc(file)) != EOF)
                 putchar(c);
                 printf("\n");
             fclose(file);
-            printf("**** END READING TEXT FILE **** \n \n");
+            printf("**** DONE READING TEXT FILE **** \n");
         }
-    nextStateNoTreeOption();
+    userInterface();
 }
 
 /*
- * Writes a file
+ * Takes input from the user and inserts the first name and last name of an employee into the ListOfEmployees.txt file
  */
 void writeFile(){
-    printf("In the writeFile method \n");
-
     fptr = fopen("ListOfEmployees.txt", "a");
     if (fptr == NULL) {
         printf("Error opening file!");
@@ -75,34 +73,25 @@ void writeFile(){
     else {
         printf("\n**** BEGIN WRITING IN A TEXT FILE **** \n");
         getchar();
-        printf("Type first and last name: ");
+        printf("Type first and last name: \n");
         characters = getline(&b, &bufsize, stdin);
+        printf("\n");
         printf("**** END WRITING IN A TEXT FILE **** \n \n");
-        printf("**** SUCCESS **** \n \n");
         const char *text = buffer;
         fprintf(fptr, "%s", text);
+        fclose(fptr);
     }
-    nextStateNoTreeOption();
-}
-
-/*
- * Searches for an employee.
- */
-void searchEmployee(){
-    printf("In the searchEmployee method \n");
     userInterface();
 }
 
-void insertEmployee() {
-    printf("In the insertEmployee method \n");
-    double result; // to obtain the height of the tree
+void createBST() {
     node *root = NULL;
     FILE *file = fopen("ListOfEmployees.txt", "r");
     int numberOfLines = countNumberOfLinesInATextFile(file);
     printf("\n %s %d %s", "number of lines: ", numberOfLines, "\n");
     char line[numberOfLines][256];
     if (file) {
-        printf("\n**** BEGIN READING EMPLOYEES FROM TEXT FILE**** \n");
+        printf("\n**** BEGIN CREATING BST FROM THE TEXT FILE**** \n");
         root = newNode(0);
         int i=0;
         while (fgets(line[i], sizeof(line), file) != 0) {
@@ -112,57 +101,48 @@ void insertEmployee() {
             i++;
         }
         fclose(file);
-        printf("**** END READING EMPLOYEES FROM TEXT FILE **** \n \n");
+        printf("**** END CREATING BST FROM TEXT FILE **** \n \n");
         result = log(numberOfLines+1)/log(2);
         printTree(root, result); // pass the root and the height
-      //  printTree(root, result); // pass the root and the height
-        nextState(root);
+        nextState(root); // Ask the user if they want to fire an employee
     }
+    userInterface();
 }
 
 void deleteEmployee(node* root){
-    printf("In the deleteEmployee method \n");
     getchar();
-    char userInput[256]; // Length 256
+    char userInput[256];
+    int whatToDoNext;
+
     printf("Firing someone is not an easy task to do. Please type in the first name and last name:\n");
     fgets(userInput, 256, stdin);
-    deleteNode(root, userInput);
-    printTree(root, 3); // pass the root and the height
-    nextState(root);
+
+    printf("%s %s %s", "Are you sure you want to fire:", userInput, "1) Yes \n 2) No \n");
+
+    scanf("%d", &whatToDoNext);
+    if(whatToDoNext == 1){
+        deleteNode(root, userInput); // Delete node from the binary search tree
+        deleteEverythingFromTextFile(root); // Clear everything from the text file
+        writeFromBSTTotextFile(root); // Write the new structure of the tree to the text file
+        printTree(root, result); // Print the tree with the log(number of employees)
+    }
+    userInterface();
 }
 
-
-void nextStateNoTreeOption(){
-    int userInput;
-    printf("Type a number to choose \n 1) Quit \n 2) Continue \n");
-    scanf("%d", &userInput);
-    if(userInput == 1){
-        printf("Have a great day!\n");
-    }
-    if(userInput == 2){
-        userInterface();
-    }
-}
 void nextState(node *root){
     int userInput;
-     printf("Type a number to choose \n 1) Quit \n 2) Continue \n 3) Delete employee \n");
+    printf("Type a number to choose \n 1) Fire employee \n 2) Quit\n");
     scanf("%d", &userInput);
     if(userInput == 1){
-        printf("Have a great day!\n");
-    }
-    if(userInput == 2){
-        userInterface();
-    }
-    if(userInput == 3) {
         deleteEmployee(root);
+    }
+    if(userInput == 2) {
+        printf("Have a great day!\n");
     }
 }
 int countNumberOfLinesInATextFile(char* filename){
-    printf("In the readFile method \n");
-
     FILE *file;
     int c;
-
     file = fopen("ListOfEmployees.txt", "r");
     int counter = 0;
     if (file) {

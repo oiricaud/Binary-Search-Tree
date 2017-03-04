@@ -1,5 +1,5 @@
 # Binary-Search-Tree
-BST written in C. Let's see how fast I can write this. 
+BST written in C. Let's see how fast I can write this. ~ It took me about 21 hours, much longer than I anticipated. 
 
 Project Description
 ======

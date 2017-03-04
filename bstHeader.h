@@ -9,15 +9,23 @@ typedef struct node {
     char *data;
 } node;
 
+/* Create functions */
+
+// Creates nodes
 node *newNode(char *data);
+
+// Delete Nodes
 node *deleteNode(node* root, char* data);
+
+// Prints the tree
 void printTree(node* root, int height);
+
 /*
  * We must allocate memory for a new node and fill it's data with the proper value.
  */
 node *newNode(char *data){
 
-    /* Calloc allocates space for an array of elements,
+    /* Malloc allocates space for an array of elements,
      * initialize them to zero and then return a void
      * pointer to the memory
      */
@@ -42,9 +50,7 @@ node *maxNode(node *root);
  */
 
 node *insert(node* root, char* data){
-    //node *n;
    // printf("%s %s %s %s %s", "root->data: ", root->data, "Data: ", data,"\n");
-
     if(!root->data){
       //  printf("%s %s %s %s %s %s", "Tree is empty: ", "Root->Data: ", root->data, "Data: ", data, "\n");
         root->data = data;
@@ -82,6 +88,11 @@ node *insert(node* root, char* data){
     return root;
 }
 
+/**
+ * This method finds the maximum value of the left subtree[2].
+ * @param root
+ * @return
+ */
 node *maxNode(node* root){
    if(root == NULL){
        return NULL;
@@ -93,6 +104,12 @@ node *maxNode(node* root){
     return temp;
 
 }
+/**
+ * This method deletes an employee from the tree [2].
+ * @param root is the root of the tree
+ * @param data is the employee we are terminating from the company
+ * @return
+ */
 node *deleteNode(node* root, char* data){
     printf("%s %s\n", "rootdata:", root->data);
 
@@ -102,44 +119,46 @@ node *deleteNode(node* root, char* data){
         return root;
     }
 
-    int compare;
-    compare = strcmp(root->data, data);
+    int result;
+    result = strcmp(root->data, data);
 
-    // Recurse Left
-    if(compare < 0) {
+    // If the result is negative it means the root Employee is less than the Employee
+    // Therefore we must traverse the left-subtree
+    if(result < 0) {
         printf("Here 1");
         root->leftChild = deleteNode(root->leftChild, data);
     }
-    // Recurse Right
-    else if(compare > 0){
+    // If the result is positive we must search for the employee the right-subtree
+    else if(result > 0){
         printf("Here 2");
         root->rightChild = deleteNode(root->rightChild, data);
     }
 
-    // else we find the node
+    // Else we find the node
     else{
         // If both the subtrees, left & right are empty free the root
         if(root->leftChild == NULL && root->rightChild == NULL){
             free(root);
-            printf("Here 3");
             return NULL;
         }
+        // If the left subtree has no children, destroy the root node and return the right node
         else if(root->leftChild == NULL){
             temp = root->rightChild;
             free(root);
-            printf("Here 4");
             return temp;
         }
+        // If the right root is empty, destroy the root node and return the left node
         else if(root->rightChild == NULL){
             temp = root->leftChild;
             free(root);
-            printf("Here 5");
             return temp;
         }
+        // We must find the maximum value from the left subtree and store it to the temp
         temp = maxNode(root->leftChild);
         root->data = temp->data;
         root->leftChild = deleteNode(root->leftChild, temp->data);
     }
+    // returns the new tree
     return root;
 }
 /**
