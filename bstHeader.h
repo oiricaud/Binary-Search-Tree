@@ -111,8 +111,6 @@ node *maxNode(node* root){
  * @return
  */
 node *deleteNode(node* root, char* data){
-    printf("%s %s\n", "rootdata:", root->data);
-
     node *temp = NULL;
 
     if(root == NULL) {
@@ -125,12 +123,10 @@ node *deleteNode(node* root, char* data){
     // If the result is negative it means the root Employee is less than the Employee
     // Therefore we must traverse the left-subtree
     if(result < 0) {
-        printf("Here 1");
         root->leftChild = deleteNode(root->leftChild, data);
     }
     // If the result is positive we must search for the employee the right-subtree
     else if(result > 0){
-        printf("Here 2");
         root->rightChild = deleteNode(root->rightChild, data);
     }
 

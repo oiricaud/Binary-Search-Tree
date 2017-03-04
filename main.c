@@ -106,7 +106,6 @@ void createBST() {
         printTree(root, result); // pass the root and the height
         nextState(root); // Ask the user if they want to fire an employee
     }
-    userInterface();
 }
 
 void deleteEmployee(node* root){
@@ -121,12 +120,14 @@ void deleteEmployee(node* root){
 
     scanf("%d", &whatToDoNext);
     if(whatToDoNext == 1){
-        deleteNode(root, userInput); // Delete node from the binary search tree
-        deleteEverythingFromTextFile(root); // Clear everything from the text file
-        writeFromBSTTotextFile(root); // Write the new structure of the tree to the text file
-        printTree(root, result); // Print the tree with the log(number of employees)
+        deleteNode(root, userInput);            // Delete node from the binary search tree
+        clearTextFile(root);                    // Clear everything from the text file
+        addUpdatedEmployees(root);              // Write the new structure of the tree to the text file
+        printTree(root, result);                // Print the tree passing the height of log(number of employees)
     }
-    userInterface();
+    else
+        printf("%s %s\n", "Yeah I don't think it is a good idea to fire", userInput);
+        userInterface();                        // Go Back to the starting state
 }
 
 void nextState(node *root){
@@ -140,6 +141,7 @@ void nextState(node *root){
         printf("Have a great day!\n");
     }
 }
+
 int countNumberOfLinesInATextFile(char* filename){
     FILE *file;
     int c;
@@ -155,4 +157,38 @@ int countNumberOfLinesInATextFile(char* filename){
         return counter;
     }
     return -1;
+}
+
+/*
+ * Create an empty file for output operations. If a file with the same name already exists,
+ * its contents are discarded and the file is treated as a new empty file. [3]
+ */
+void clearTextFile(){
+    fclose(fopen("ListOfEmployees.txt", "w"));
+}
+void addUpdatedEmployees(node *root){
+    int i;
+
+    if(root){
+        addUpdatedEmployees(root->rightChild);
+        char *employee = root->data;
+        printf("%s\n", employee);
+        writeUpdatedEmployeesInTextFile(employee);
+        addUpdatedEmployees(root->leftChild);
+    }
+}
+
+/*
+ * When we delete an employee from the binary search tree we must also update the text file.
+ * This method handles that [4].
+ */
+void writeUpdatedEmployeesInTextFile(char *employee){
+    fptr = fopen("ListOfEmployees.txt", "a");
+    if (fptr == NULL) {
+        printf("Error opening file!");
+    }
+    else {
+        fputs(employee, fptr);
+        fclose(fptr);
+    }
 }
