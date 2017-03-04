@@ -3,7 +3,7 @@
 #include <string.h>
 #include "main.h"
 #include "bstHeader.h"
-
+#include <math.h>
 
 FILE *fptr;
 char buffer[32];
@@ -25,8 +25,8 @@ int main(void) {
 void userInterface(){
     printf("In the userInterface method\n");
     int userInput;
-    printf("Type a number to choose \n \n 1) Read a file \n 2) Write a file \n 3) Search Employee \n 4) Hire Employee \n"
-                   " 5) Fire employee \n");
+    printf("Type a number to choose \n \n 1) Read a file \n 2) Write a file \n 3) Search Employee \n 4) Hire Employee \n");
+
     scanf("%d", &userInput);
     if(userInput == 1){
      readFile();
@@ -39,9 +39,6 @@ void userInterface(){
     }
     else if(userInput == 4){
         insertEmployee();
-    }
-    else if (userInput == 5){
-        deleteEmployee();
     }
 }
 
@@ -98,105 +95,40 @@ void searchEmployee(){
 
 void insertEmployee() {
     printf("In the insertEmployee method \n");
-    struct node *root = NULL;
-    char line[10][256];
+    double result; // to obtain the height of the tree
+    node *root = NULL;
     FILE *file = fopen("ListOfEmployees.txt", "r");
+    int numberOfLines = countNumberOfLinesInATextFile(file);
+    printf("\n %s %d %s", "number of lines: ", numberOfLines, "\n");
+    char line[numberOfLines][256];
     if (file) {
-        printf("\n**** BEGIN INSERTING EMPLOYEES **** \n");
+        printf("\n**** BEGIN READING EMPLOYEES FROM TEXT FILE**** \n");
         root = newNode(0);
         int i=0;
         while (fgets(line[i], sizeof(line), file) != 0) {
-            //note that fgets don't strip the terminating \n, checking its
-            // presence would allow to handle lines longer that sizeof(line)
-            printf("%s %s", "line:", line);
+            //note that fgets don't strip the terminating \n, checking its presence would allow to handle lines longer
+            // that sizeof(line)
             insert(root, line[i]);
             i++;
         }
         fclose(file);
-        printf("**** END INSERTING EMPLOYEES **** \n \n");
+        printf("**** END READING EMPLOYEES FROM TEXT FILE **** \n \n");
+        result = log(numberOfLines+1)/log(2);
+        printTree(root, result); // pass the root and the height
+      //  printTree(root, result); // pass the root and the height
         nextState(root);
     }
-        /*
-        while (fgets(line, sizeof(line), file)  != '\n') {
-
-          //note that fgets don't strip the terminating \n, checking its
-         // presence would allow to handle lines longer that sizeof(line)
-
-            printf("%s %s", "line:", line);
-            insert(root, line);
-
-        }
-        fclose(file);
-        printf("**** END INSERTING EMPLOYEES **** \n \n");
-        nextState(root);
-    }
-*/
-/*
-    insert(root, "Javi");
-    insert(root, "Oscar");
-    insert(root, "Daniel");
-    insert(root, "Gisela");
-    nextState(root);
-*/
-
-
-/*
-    struct node *root = NULL;
-    root = newNode(0);
-    FILE *file;
-    int c;
-    char line[256] ="";
-
-    file = fopen("ListOfEmployees.txt", "r");
-    if (file) {
-
-        printf("\n**** BEGIN INSERTING EMPLOYEES **** \n");
-
-        while (fgets(line, sizeof(line), file)  != 0) {
-             note that fgets don't strip the terminating \n, checking its
-               presence would allow to handle lines longer that sizeof(line)
-
-            insert(root, line);
-           // printf("%s %s", "line:", fgets(line, sizeof(line), file));
-        }
-
-        fclose(file);
-        printf("**** END INSERTING EMPLOYEES **** \n \n");
-    }
-
-    insert(root, "Javi");
-    insert(root, "Oscar");
-    insert(root, "Daniel");
-    insert(root, "Gisela");
-
-    nextState(root);
-
-
-    fptr = fopen("ListOfEmployees.txt", "r");
-    if (fptr == NULL) {
-        printf("Error opening file!");
-    }
-    else {
-        printf("\n**** Hire Employee **** \n");
-        struct node *root = NULL;
-        root = newNode(0);
-        insert(root, 2);
-        insert(root, 3);
-        insert(root, 1);
-        insert(root, 4);
-        insert(root, 0);
-        printTree(root, 1);
-    }
-    printf("\n**** End Hire Employee **** \n");
-    nextState();
-     */
-
 }
 
-void deleteEmployee(){
+void deleteEmployee(node* root){
     printf("In the deleteEmployee method \n");
+    getchar();
+    char userInput[256]; // Length 256
     printf("Firing someone is not an easy task to do. Please type in the first name and last name:\n");
-    userInterface();
+    fgets(userInput, 256, stdin);
+    deleteNode(root, userInput);
+    printTree(root, 3); // pass the root and the height
+    nextState(root);
 }
 
 
@@ -211,9 +143,9 @@ void nextStateNoTreeOption(){
         userInterface();
     }
 }
-void nextState(struct node *root){
+void nextState(node *root){
     int userInput;
-     printf("Type a number to choose \n 1) Quit \n 2) Continue \n 3) Print Tree \n");
+     printf("Type a number to choose \n 1) Quit \n 2) Continue \n 3) Delete employee \n");
     scanf("%d", &userInput);
     if(userInput == 1){
         printf("Have a great day!\n");
@@ -222,6 +154,25 @@ void nextState(struct node *root){
         userInterface();
     }
     if(userInput == 3) {
-        printTree(root, 1);
+        deleteEmployee(root);
     }
+}
+int countNumberOfLinesInATextFile(char* filename){
+    printf("In the readFile method \n");
+
+    FILE *file;
+    int c;
+
+    file = fopen("ListOfEmployees.txt", "r");
+    int counter = 0;
+    if (file) {
+        printf("\n**** BEGIN COUNTER IN TEXT FILE **** \n");
+        while ((c = getc(file)) != EOF)
+            if (c == '\n')
+                counter++;
+        fclose(file);
+        printf("**** END COUNTER IN TEXT FILE **** \n \n");
+        return counter;
+    }
+    return -1;
 }

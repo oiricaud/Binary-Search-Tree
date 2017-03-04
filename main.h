@@ -9,7 +9,7 @@ void searchEmployee();
 void insertEmployee();
 void deleteEmployee();
 void nextStateNoTreeOption();
-void nextState(struct node *root);
-
+int countNumberOfLinesInATextFile();
+void nextState(node *root);
 
 #endif //MAIN_H
