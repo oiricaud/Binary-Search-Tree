@@ -6,11 +6,16 @@ CFLAGS=-g -O3
 #   $@ is the production's target
 #   $^ are the production's prerequisites
 
-main: main.o
+main: functions.o main.o
 	cc -o $@ $^ -lm
 
-main.o: main.c bstHeader.h
+functions.o: functions.c functions.h
+	cc -c $(CFLAGS) functions.c
+
+main.o: main.c functions.h
 	cc -c $(CFLAGS) main.c
+
+
 
 clean:
 	rm -f *.o main
