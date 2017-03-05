@@ -1,7 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-double result; // to obtain the height of the tree
 void userInterface();
 void readFile();
 void writeFile();
