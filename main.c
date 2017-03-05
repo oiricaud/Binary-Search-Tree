@@ -4,7 +4,6 @@
 #include "functions.h"
 
 int input(char *s,int length);
-
 /*
  * This method handles the interaction between the user and the terminal. The user has an array of options such as reading
  * writing a file, search, hire or even fire employees.
@@ -29,7 +28,6 @@ void userInterface(){
         printf("|***** Thank you very much for using our Service ******|\n");
         return;
     }
-
 }
 
 int main(void) {

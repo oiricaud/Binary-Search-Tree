@@ -126,8 +126,6 @@ void nextState(node *root){
     }
 }
 
-
-
 /*
  * Create an empty file for output operations. If a file with the same name already exists,
  * its contents are discarded and the file is treated as a new empty file. [3]
@@ -185,7 +183,6 @@ node *newNode(char *data){
     return newNode;
 }
 
-
 /**
  * This method inserts data to the Binary Search Tree[1]
  * @param root a new node on the tree if the data is not already stored
@@ -233,10 +230,13 @@ node *insert(node* root, char* data){
 }
 
 /**
- * This method finds the maximum value of the left subtree [2].
- * @param root
+ * This method only executes if the tree has a left subtree & the root is being deleted
+ * After it visits the root's left child it verifies if the root's left child has a right child a swapping occurs
+ * between the root and the root's left child, right child.
+ * a swapping occurs
+ * @param
  * @return
- */
+ * */
 node *maxNode(node* root){
     if(root == NULL){
         return NULL;
