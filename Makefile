@@ -7,7 +7,7 @@ CFLAGS=-g -O3
 #   $^ are the production's prerequisites
 
 main: main.o
-	cc -o $@ $^
+	cc -o $@ $^ -lm
 
 main.o: main.c main.h bstHeader.h
 	cc -c $(CFLAGS) main.c
