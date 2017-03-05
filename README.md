@@ -54,7 +54,7 @@ Its contents are described in a README.  That readme also suggests a few practic
 
 Resources 
 =========
-
+Ideas are independent of the human mind. These ideas are ideas that you cannot touch, feel or smell. Windley introduced the Binary Search Tree in the 1960's. All credit goes to him and a few open-source collaborators I encountered in Github. Please view the resources file for detailed information. 
 Pseudocode
 =========
 
@@ -65,14 +65,14 @@ The following is information the client does not need to know. We will be implem
 Implementation of a B-Tree
 
  - Searching
-    - Before we can insert or delete employees, we must first find out if there are any employee that belong to the Electric Fetus music store. If there is an instance where all employees have been terminated, our system will notify our client that employees do not exist, and suggest hiring a few people. There could also be an instance where Electric Fetus music store has many employees. If we happen to be searching for an employee and he/she is found we can either terminate that employee or hire an employee. 
+   Before we can insert or delete employees, we must first find out if there are any employee that belong to the Electric Fetus music store. If there is an instance where all employees have been terminated, our system will notify our client that employees do not exist, and suggest hiring a few people. There could also be an instance where Electric Fetus music store has many employees. If we happen to be searching for an employee and he/she is found we can either terminate that employee or hire an employee. 
    
  - Insertion 
     To hire an employee we must first verify that our root of the tree is not the employee we are trying to insert. If this is the case we can return "What are you doing employee already exists Insert an employee at the correct 
     
     
  - Deltion 
-
+    To delete an employee we must figure out where the employee is located in the binary search tree structure. If the employee is the root then we must check if the BST has a left subtree if it does we must travese down the left subtree and find the right most child. If we happen to have an empty left subrtree then simply do a swap with the right subtree. 
 
 
 

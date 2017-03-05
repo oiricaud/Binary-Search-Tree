@@ -89,7 +89,7 @@ node *insert(node* root, char* data){
 }
 
 /**
- * This method finds the maximum value of the left subtree[2].
+ * This method finds the maximum value of the left subtree [2].
  * @param root
  * @return
  */
