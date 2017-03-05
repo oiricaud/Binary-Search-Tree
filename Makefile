@@ -9,7 +9,7 @@ CFLAGS=-g -O3
 main: main.o
 	cc -o $@ $^ -lm
 
-main.o: main.c main.h bstHeader.h
+main.o: main.c bstHeader.h
 	cc -c $(CFLAGS) main.c
 
 clean:

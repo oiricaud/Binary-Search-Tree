@@ -1,9 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "main.h"
 #include "bstHeader.h"
 #include <math.h>
+
+
+double result; // to obtain the height of the tree
+void userInterface();
+void readFile();
+void writeFile();
+void createBST();
+void deleteEmployee();
+void nextStateNoTreeOption();
+int countNumberOfLinesInATextFile();
+void nextState(node *root);
+void clearTextFile();
+void addUpdatedEmployees(node *root);
+void writeUpdatedEmployeesInTextFile();
+
 
 FILE *fptr;
 char buffer[32];
