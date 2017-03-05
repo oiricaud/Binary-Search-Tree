@@ -7,7 +7,7 @@ void writeFile();
 void createBST();
 void deleteEmployee();
 void nextStateNoTreeOption();
-int countNumberOfLinesInATextFile();
+
 void nextState(node *root);
 void clearTextFile();
 void addUpdatedEmployees(node *root);
