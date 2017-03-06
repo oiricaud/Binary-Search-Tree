@@ -11,7 +11,8 @@ What was the hardest part?
 A brief description is the system needs to somehow store data for employee information. This data will contain first and last names of employees currently working at Electric Fetus Music Store - [For example](https://github.com/utep-2017-spr-arch1/project-1-personnel-management-oiricaud/blob/master/Binary-Search-Tree/ListOfEmployees.txt). The manager will be able to either hire or fire employees through a user interface.
  
 > The [main.c](https://github.com/utep-2017-spr-arch1/project-1-personnel-management-oiricaud/blob/master/Binary-Search-Tree/main.c) contains the code where the manager is be able to 
-
+      
+      Use the system
       read the list of employees
       write inside the text file  
       create a binary search tree from the list of employees file 
