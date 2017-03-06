@@ -9,7 +9,6 @@ int input(char *s,int length);
  * writing a file, search, hire or even fire employees.
  */
 void userInterface(){
-
     int userInput;
     printf("Type a number to choose \n "
                    "1) Read a file \n 2) Write inside the text file \n 3) Create a BST from the text file \n 4) Quit\n");

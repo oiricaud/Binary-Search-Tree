@@ -20,7 +20,7 @@ struct node *maxNode(node *root);
 struct node *insert(node* root, char* data);
 
 /* Delete Node */
- struct node *deleteNode(node* root, char* data);
+struct node *deleteNode(node* root, char* data);
 
 /* Prints the tree */
 void printTree(node* root, int height);

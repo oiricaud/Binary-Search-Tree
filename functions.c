@@ -5,26 +5,23 @@
 #include "functions.h"
 
 FILE *fptr;
-FILE *file;
 char buffer[32];
 char *b = buffer;
 size_t bufsize = 32;
 size_t characters;
 
-
 /*
  * Reads a file, the file must exist for it to work. Solve this issue later.
  */
 void readFile(){
-    FILE *file;
     int c;
-    file = fopen("ListOfEmployees.txt", "r");
-    if (file) {
+    fptr = fopen("ListOfEmployees.txt", "r");
+    if (fptr) {
         printf("\n**** READING TEXT FILE **** \n");
-        while ((c = getc(file)) != EOF)
+        while ((c = getc(fptr)) != EOF)
             putchar(c);
         printf("\n");
-        fclose(file);
+        fclose(fptr);
         printf("**** DONE READING TEXT FILE **** \n");
     }
     userInterface();
@@ -52,16 +49,15 @@ void writeFile(){
     userInterface();
 }
 int countNumberOfLinesInATextFile(char* filename){
-    FILE *file;
     int c;
-    file = fopen("ListOfEmployees.txt", "r");
+    fptr = fopen("ListOfEmployees.txt", "r");
     int counter = 0;
-    if (file) {
+    if (fptr) {
         printf("\n**** BEGIN COUNTER IN TEXT FILE **** \n");
-        while ((c = getc(file)) != EOF)
+        while ((c = getc(fptr)) != EOF)
             if (c == '\n')
                 counter++;
-        fclose(file);
+        fclose(fptr);
         printf("**** END COUNTER IN TEXT FILE **** \n \n");
         return counter;
     }
@@ -69,7 +65,6 @@ int countNumberOfLinesInATextFile(char* filename){
 }
 void createBST() {
     node *root = NULL;
-
     FILE *file = fopen("ListOfEmployees.txt", "r");
     int numberOfLines = countNumberOfLinesInATextFile(file);
     printf("\n %s %d %s", "number of lines: ", numberOfLines, "\n");
@@ -125,7 +120,6 @@ void nextState(node *root){
         printf("Have a great day!\n");
     }
 }
-
 /*
  * Create an empty file for output operations. If a file with the same name already exists,
  * its contents are discarded and the file is treated as a new empty file. [3]
@@ -138,11 +132,11 @@ void addUpdatedEmployees(node *root){
     int i;
 
     if(root){
-        addUpdatedEmployees(root->rightChild);
+        addUpdatedEmployees(root->leftChild);
         char *employee = root->data;
         printf("%s\n", employee);
         writeUpdatedEmployeesInTextFile(employee);
-        addUpdatedEmployees(root->leftChild);
+        addUpdatedEmployees(root->rightChild);
     }
 }
 
@@ -166,17 +160,15 @@ void writeUpdatedEmployeesInTextFile(char *employee){
  * We must allocate memory for a new node and fill it's data with the proper value.
  */
 node *newNode(char *data){
-
     /* Malloc allocates space for an array of elements,
      * initialize them to zero and then return a void
-     * pointer to the memory
+     * pointer to the memory [2].
      */
     node *newNode = NULL;
     newNode=malloc(sizeof(node));
     if(newNode == NULL){
         exit(1);
     }
-
     newNode->data = data;
     newNode->leftChild = NULL;
     newNode->rightChild = NULL;
@@ -184,45 +176,40 @@ node *newNode(char *data){
 }
 
 /**
- * This method inserts data to the Binary Search Tree[1]
+ * This method inserts data to the Binary Search Tree [1]
  * @param root a new node on the tree if the data is not already stored
  * @param data the data we are trying to insert to the tree
  * @return 0 for error and 1 for success
  */
 
 node *insert(node* root, char* data){
-    // printf("%s %s %s %s %s", "root->data: ", root->data, "Data: ", data,"\n");
+    // If the root data < 1. Means our tree is empty
     if(!root->data){
-        //  printf("%s %s %s %s %s %s", "Tree is empty: ", "Root->Data: ", root->data, "Data: ", data, "\n");
         root->data = data;
     }
     else{
-        //  printf("%s %s %s %s %s", "HEREroot->data: ", root->data, "Data: ", data,"\n");
         int compare;
         compare = strcmp(data, root->data);
-        if(compare == 0) { // If the data is equal to the root then,
-            //    printf("%s %s %s %s %s %d %s", "Data: ", data, "Root->Data: ", root->data, "Compare: ", compare, "\n");
+
+        if(compare == 0) {
+            printf("We already have that employee in our system\n");
         }
-        else if (compare < 0){ // data is less than root->data.
-            //   printf("%s %s %s %s %s, %s", "data is > root->data|", data, ">", root->data, "compareStrings", "\n");
-            if(root->rightChild) {  // This statement runs if the root has a right child
-                // printf("This statement runs if the root has a right child\n");
+        // data > root->data ex. New employee is greater than the root, store left subtree.
+        else if (compare > 0){
+            if(root->leftChild) {  // Check if you have a left child already, if so keep recursively, comparing
+                                    // and traversing.
+                return insert(root-> leftChild, data);
+            }
+            else {// Create a new child
+                root-> leftChild = newNode(data);
+            }
+        }
+        else{
+            if(root->rightChild) {
                 return insert(root->rightChild, data);
             }
-            else {// Create new right child
+            else {
                 root->rightChild = newNode(data);
-                // printf("Create a new right child\n");
-            }
-        }
-        else{ // Insert at the left child
-            //    printf("%s %s %s %s %s", "data is < root->data|", data, "<", root->data, "\n");
-            if(root->leftChild) { // This statement runs if the root has a left child
-                // printf("This statement runs if the root has a left child");
-                return insert(root->leftChild, data);
-            }
-            else {// Create a new left child
-                root->leftChild = newNode(data);
-                //  printf("Create a new left child");
             }
         }
     }
@@ -246,7 +233,6 @@ node *maxNode(node* root){
         temp = temp->rightChild;
     }
     return temp;
-
 }
 /**
  * This method deletes an employee from the tree [2].
@@ -308,11 +294,10 @@ node *deleteNode(node* root, char* data){
  */
 void printTree(node* root, int height){
     int i;
-
     if(root){
         printTree(root->leftChild, height+1);
         for(i = 0; i < height; i++)
-            printf("  ├──  ");
+            printf("             ├──  ");
         printf("%s\n", root->data);
         printTree(root->rightChild, height+1);
     }
